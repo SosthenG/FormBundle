@@ -8,8 +8,14 @@ class Configuration implements ConfigurationInterface
 {
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('alsatian_form');
+        $treeBuilder = new TreeBuilder('alsatian_form');
+
+        if(method_exists($treeBuilder, 'getRootNode')) {
+            $rootNode = $treeBuilder->getRootNode();
+        } 
+        else{
+            $rootNode = $treeBuilder->root('alsatian_form');
+        }
         
         $rootNode
             ->append($this->getNode('extensible_choice'))
@@ -25,8 +31,15 @@ class Configuration implements ConfigurationInterface
     
     private function getNode($name)
     {
-        $treeBuilder = new TreeBuilder();
-        $node = $treeBuilder->root($name);
+        $treeBuilder = new TreeBuilder($name);
+
+        if(method_exists($treeBuilder, 'getRootNode')) {
+            $node = $treeBuilder->getRootNode();
+        } 
+        else{
+            $node = $treeBuilder->root($name);
+        }
+        
         $node
             ->canBeEnabled()
             ->children()
